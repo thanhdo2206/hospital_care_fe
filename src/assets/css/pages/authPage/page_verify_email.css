@@ -1,0 +1,44 @@
+.container__verify__email {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.container__verify__email .verify__success {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+}
+
+.container__verify__email .verify__success img {
+  width: 200px;
+  height: 200px;
+  margin-bottom: 70px;
+}
+
+.container__verify__email .verify__success p {
+  margin-bottom: 12px;
+}
+
+.container__verify__email .verify__success > a {
+  text-decoration: none;
+  margin-top: 20px;
+}
+
+.container__verify__email .verify__fail {
+  text-align: center;
+}
+
+.container__verify__email .verify__fail > img {
+  margin-bottom: 40px;
+}
+
+.container__verify__email .verify__fail h1{
+    color:red;
+    margin-bottom: 20px;
+}
+
+.container__verify__email .verify__fail > p{
+    font-size:20px;
+}

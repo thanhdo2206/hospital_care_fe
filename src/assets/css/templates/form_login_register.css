@@ -1,0 +1,86 @@
+.container__login__register {
+  background-image: linear-gradient(to left, #74ebd5, #9face6);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #525252;
+  font-size: 14px;
+}
+
+.container_form {
+  width: 660px;
+  background-color: #fff;
+  padding: 30px 85px;
+  border-radius: 10px;
+}
+
+.container_form .header__form {
+  text-align: center;
+}
+.container_form .header__form .img__logo {
+  width: 80px;
+}
+
+.container_form .header__form p {
+  font-size: 28px;
+  margin-top: 12px;
+  margin-bottom: 26px;
+}
+
+.container__login__register .container_form .error__response {
+  color: red;
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.container_form .footer__form {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.container_form .footer__form > a {
+  margin-left: 4px;
+  font-weight: bold;
+  color: #525252;
+}
+
+.form__login__register .container__input {
+  margin-bottom: 4px;
+}
+
+.form__login__register .container__input .label__input {
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+.form__login__register .container__input .label__input .sign__required {
+  color: red;
+}
+
+.form__login__register .container__input .text__field input {
+  padding: 10px 14px;
+}
+
+.form__login__register .container__input .MuiFormHelperText-root {
+  margin-left: 0px;
+}
+
+.form__login__register .btn__login__register {
+  width: 100%;
+  border: none;
+  background-image: linear-gradient(to left, #74ebd5, #9face6);
+  padding: 10px 0px;
+  margin-top: 14px;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.form__login__register .btn__login__register:hover {
+  box-shadow: 3px 3px 9px 3px #d5edea;
+}
