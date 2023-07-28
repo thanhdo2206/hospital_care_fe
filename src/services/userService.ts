@@ -46,6 +46,19 @@ export const refreshTokenService = async (): Promise<any> => {
   }
 };
 
+export const logoutService = async (): Promise<any> => {
+  try {
+    const responseApi = await requestAuthApi({
+      method: "post",
+      url: `/user/logout`,
+    });
+    return responseApi.data;
+  } catch (error: any) {
+    const { data } = error.response;
+    return data;
+  }
+};
+
 export const getCurrentUserService = async (): Promise<any> => {
   try {
     const responseApi = await requestAuthApi({
