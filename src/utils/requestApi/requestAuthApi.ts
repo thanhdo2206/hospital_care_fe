@@ -15,7 +15,12 @@ requestAuthApi.interceptors.response.use(
     const originalConfig = err.config;
     console.log("err.response", err.response);
 
-    if (err.response && err.response.status === 401) {
+    const { data } = err.response;
+    if (
+      err.response &&
+      data.statusCode === 401 &&
+      data.message === "jwt expired"
+    ) {
       // Access Token was expired
 
       try {
