@@ -1,4 +1,6 @@
-import { IPatientLogin, IPatientRegister } from "../interfaces/UserInterface";
+import { ACCESS_TOKEN } from "../constants/constants";
+import { IPatientLogin, IPatientRegister, IUser } from "../interface/UserInterface";
+import { setStorage } from "../utils/localStorage";
 import requestApi from "../utils/requestApi/requestApi";
 import requestAuthApi from "../utils/requestApi/requestAuthApi";
 
@@ -25,33 +27,10 @@ export const loginService = async (dataLogin: IPatientLogin): Promise<any> => {
       url: `/user/login`,
       data: dataLogin,
     });
-    return responseApi.data;
-  } catch (error: any) {
-    const { data } = error.response;
-    return data;
-  }
-};
+    const { auth, accessToken } = responseApi.data;
+    setStorage(ACCESS_TOKEN, accessToken);
+    setStorage("auth", auth);
 
-export const refreshTokenService = async (): Promise<any> => {
-  console.log("refresh token service");
-  try {
-    const responseApi = await requestApi({
-      method: "post",
-      url: `/user/refresh-token`,
-    });
-    return responseApi.data;
-  } catch (error: any) {
-    const { data } = error.response;
-    return data;
-  }
-};
-
-export const logoutService = async (): Promise<any> => {
-  try {
-    const responseApi = await requestAuthApi({
-      method: "post",
-      url: `/user/logout`,
-    });
     return responseApi.data;
   } catch (error: any) {
     const { data } = error.response;
@@ -65,7 +44,21 @@ export const getCurrentUserService = async (): Promise<any> => {
       method: "get",
       url: `/user`,
     });
-    console.log("getCurrentUserService res", responseApi);
+    return responseApi.data;
+  } catch (error: any) {
+    const { data } = error.response;
+    return data;
+  }
+};
+
+
+export const updateProfileUserService = async (dataUpdate:IUser): Promise<any> => {
+  try {
+    const responseApi = await requestAuthApi({
+      method: "patch",
+      url: `/user`,
+      data: dataUpdate,
+    });
     return responseApi.data;
   } catch (error: any) {
     const { data } = error.response;

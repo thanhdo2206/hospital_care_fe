@@ -1,38 +1,24 @@
 import axios from "axios";
-import { refreshTokenService } from "../../services/userService";
+import { ACCESS_TOKEN } from "../../constants/constants";
+import { getStorage } from "../localStorage";
 
 const requestAuthApi = axios.create({
-  withCredentials: true,
   baseURL: `${process.env.REACT_APP_BASE_URL_API}`,
 });
 
-requestAuthApi.interceptors.response.use(
-  (res) => {
-    console.log("res request auth api", res);
-    return res;
+requestAuthApi.interceptors.request.use(
+  (config) => {
+    //Cấu hình tất cả header gửi đi đều có bearer token (token authorization đăng nhập)
+    // config.headers = {
+    //   ...config.headers,
+    //   Authorization: "Bearer " + settings.getStore(ACCESS_TOKEN)
+    // };
+
+    config.headers.Authorization = getStorage(ACCESS_TOKEN);
+
+    return config;
   },
-  async (err) => {
-    const originalConfig = err.config;
-    console.log("err.response", err.response);
-
-    const { data } = err.response;
-    if (
-      err.response &&
-      data.statusCode === 401 &&
-      data.message === "jwt expired"
-    ) {
-      // Access Token was expired
-
-      try {
-        const rs = await refreshTokenService();
-        console.log("refresh token", rs);
-
-        return requestAuthApi(originalConfig);
-      } catch (_error) {
-        return Promise.reject(_error);
-      }
-    }
-
+  (err) => {
     return Promise.reject(err);
   }
 );

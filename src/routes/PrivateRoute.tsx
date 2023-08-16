@@ -1,20 +1,27 @@
 import React from "react";
-import { ROLE } from "../constants/enums";
 import { Navigate } from "react-router-dom";
 import AccessDenied from "../pages/authPage/DeniedPage/AccessDenied";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/configStore";
+import { getStorage } from "../utils/localStorage";
+import { AUTH } from "../constants/constants";
 
 type Props = {
   children?: JSX.Element;
-  roles: Array<ROLE>;
+  roles: string[];
 };
 
 export default function PrivateRoute(props: Props) {
-  const { children, roles } = props;
-  const isAuthenticated = true;
-  const role = ROLE.PATIENT;
+  const { currentUser } = useSelector((state: RootState) => state.userSlice);
 
-  console.log("children", children);
-  const userHasRequiredRole = roles.includes(role) ? true : false;
+  const { children, roles } = props;
+
+  const isAuthenticated = getStorage(AUTH);
+  const role = currentUser.role;
+  if (!role && isAuthenticated) return <></>;
+
+  const userHasRequiredRole = role && roles.includes(role);
+
   if (!isAuthenticated) {
     return <Navigate to="/login" replace={true} />;
   }

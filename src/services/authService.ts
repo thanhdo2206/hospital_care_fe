@@ -1,4 +1,4 @@
-import { IPatientRegister } from "../interfaces/UserInterface";
+import { IPatientRegister } from "../interface/UserInterface";
 import requestApi from "../utils/requestApi/requestApi";
 
 export const verifyEmailTokenService = async (
@@ -17,5 +17,3 @@ export const verifyEmailTokenService = async (
     return data;
   }
 };
-
-

@@ -11,8 +11,9 @@ import { EMAIL_REGEX } from "../../../utils/regex";
 import * as Yup from "yup";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import FormLoginRegister from "../../../templates/FormLoginRegister";
-import { IPatientLogin } from "../../../interfaces/UserInterface";
+import { IPatientLogin, IUser } from "../../../interface/UserInterface";
 import { loginService } from "../../../services/userService";
+import { ROLE } from "../../../constants/enums";
 
 type Props = {};
 
@@ -25,15 +26,6 @@ export default function Login({}: Props) {
   const navigate = useNavigate();
 
   const [textErrorResponse, setTextErrorResponse] = useState<string>("");
-  const loginApi = async (dataLogin: IPatientLogin) => {
-    const response = await loginService(dataLogin);
-
-    if (response.statusCode && response.statusCode > 400) {
-      setTextErrorResponse(response.message);
-      return;
-    }
-    navigate("/home");
-  };
 
   const formik = useFormik<IPatientLogin>({
     initialValues: {
@@ -55,6 +47,30 @@ export default function Login({}: Props) {
   });
 
   const { values, errors, handleChange, handleSubmit, handleBlur } = formik;
+
+  const loginApi = async (dataLogin: IPatientLogin) => {
+    const response = await loginService(dataLogin);
+
+    if (response.statusCode && response.statusCode > 400) {
+      setTextErrorResponse(response.message);
+      return;
+    }
+    navigateAfterLogin(response.user);
+  };
+
+  const navigateAfterLogin = (user: IUser) => {
+    if (user) {
+      if (user.role === ROLE.DOCTOR) {
+        navigate("/doctor/appointment");
+        return;
+      }
+
+      if (user.role === ROLE.PATIENT) {
+        navigate("/search-doctor");
+        return;
+      }
+    }
+  };
 
   const formLogin: JSX.Element = (
     <form action="" onSubmit={handleSubmit} className="form__login__register">
@@ -114,6 +130,7 @@ export default function Login({}: Props) {
       </button>
     </form>
   );
+
   const footerForm: JSX.Element = (
     <>
       Don't have an account ?<NavLink to="/sign-up">Signup now</NavLink>

@@ -15,7 +15,7 @@ import {
 } from "../../../utils/validateForm";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { IPatientRegister } from "../../../interfaces/UserInterface";
+import { IPatientRegister } from "../../../interface/UserInterface";
 import { EMAIL_REGEX, NAME_REGEX, PHONE_REGEX_VN } from "../../../utils/regex";
 import { Grid, IconButton, InputAdornment } from "@mui/material";
 import { VisibilityOff, Visibility } from "@mui/icons-material";

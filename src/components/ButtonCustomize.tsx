@@ -13,8 +13,10 @@ type Props = {
 
 export default function ButtonCustomize(props: Props) {
   const { text, icon, className, type, onClickBtn, backgroundColor } = props;
+  const cssIconText = icon ? { display: "flex", alignItems: "center" } : "";
   const btnStyle = {
     backgroundColor: backgroundColor,
+    ...cssIconText,
   };
   return (
     <button
@@ -23,7 +25,8 @@ export default function ButtonCustomize(props: Props) {
       onClick={onClickBtn}
       style={btnStyle}
     >
-      {icon} {text}
+      <span className="icon__btn">{icon}</span>
+      <span>{text}</span>
     </button>
   );
 }
