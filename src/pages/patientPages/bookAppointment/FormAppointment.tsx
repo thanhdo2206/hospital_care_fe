@@ -28,6 +28,7 @@ import { DispatchType, RootState } from "../../../redux/configStore";
 import { useDispatch, useSelector } from "react-redux";
 import { MODAL_ACTION_CONFIRM } from "../../../constants/constants";
 import { updateProfileUserThunk } from "../../../redux/slices/userSlice";
+import { ProgressListener } from "../../../components/Progress";
 
 const flagVN = require("../../../assets/img/vietnam_flag.png");
 
@@ -70,6 +71,8 @@ export default function FormAppointment(props: Props) {
     }),
 
     onSubmit: (values) => {
+      ProgressListener.emit("start");
+
       const inputData: IUser = {
         ...values,
         gender: +values.gender === 1,
@@ -91,6 +94,8 @@ export default function FormAppointment(props: Props) {
       timeSlotResponse?.id as number
     );
     await dispatch(getAllMedicalExaminationTimeThunk());
+    ProgressListener.emit("stop");
+
     // await dispatch(getListAppointment());
     toast.success("Your appointment has been booked successfully.");
     navigate("/patient/dashboard/history-appointment");
