@@ -165,3 +165,11 @@ export const checkDayOfWeek = (dayOfWeek: string | Date): boolean => {
 
   return today <= objDayOfWeek;
 };
+
+export const checkPassCurrentDay = (dayCheck: string | Date): boolean => {
+  const today = new Date();
+
+  const objDayCheck = new Date(dayCheck);
+
+  return today <= objDayCheck;
+};

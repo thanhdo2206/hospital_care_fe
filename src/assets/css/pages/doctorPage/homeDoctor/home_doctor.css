@@ -4,7 +4,7 @@
 }
 
 .container__doctor-page .conatainer__side__bar {
-  width: 260px;
+  width: 270px;
   overflow: hidden;
   min-height: 85vh;
   background-color: #fff;
@@ -65,8 +65,6 @@
   display: flex;
   align-items: center;
   padding: 15px 40px 12px 40px;
-  border-top-right-radius: 30px;
-  border-bottom-right-radius: 30px;
 }
 
 .conatainer__side__bar .list__side__bar ul > li .nav__link:hover {
@@ -97,8 +95,6 @@
   align-items: center;
   cursor: pointer;
   padding: 15px 40px 12px 40px;
-  border-top-right-radius: 30px;
-  border-bottom-right-radius: 30px;
 }
 .list__side__bar .logout__container .side__bar-icon {
   color: var(--primary-color);

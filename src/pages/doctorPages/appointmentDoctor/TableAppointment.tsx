@@ -15,7 +15,12 @@ import { IAppointment } from "../../../interface/AppointmentInterface";
 
 import { changeStatusAppointmentService } from "../../../services/appointmentService";
 import { convertVND } from "../../../utils/convertMoney";
-import { addHoursToDate, formatDate, getTimeZone } from "../../../utils/date";
+import {
+  addHoursToDate,
+  checkPassCurrentDay,
+  formatDate,
+  getTimeZone,
+} from "../../../utils/date";
 import { StatusAppointment } from "../../../constants/enums";
 import { IMedicalExamination } from "../../../interface/MedicalExaminationInterface";
 
@@ -115,7 +120,12 @@ export default function TableAppointment(props: Props) {
       width: 300,
       renderCell: (params: GridRenderCellParams) => {
         const { appointment, status } = params.row;
-        if (status === StatusAppointment.Pending) {
+        const { TimeSlot } = appointment;
+
+        if (
+          status === StatusAppointment.Pending &&
+          checkPassCurrentDay(TimeSlot.startTime)
+        ) {
           return (
             <>
               <Button
@@ -127,7 +137,7 @@ export default function TableAppointment(props: Props) {
                     appointment,
                     StatusAppointment.Approved
                   );
-                  toast.success("Appointment Approved");
+                  toast.success("Appointment was approved successfully");
                 }}
               >
                 Approve
@@ -141,7 +151,7 @@ export default function TableAppointment(props: Props) {
                     appointment,
                     StatusAppointment.Cancel
                   );
-                  toast.success("Appointment Canceled");
+                  toast.success("Appointment was canceled successfully");
                 }}
               >
                 Cancel

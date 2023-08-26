@@ -86,7 +86,7 @@ export default function TimeSlotItem(props: Props) {
   const onModalDeleteTimeSlot = async (type: string) => {
     if (type === MODAL_ACTION_CONFIRM) {
       await dispatch(deleteTimeSlotThunk(timeSlotResponse.id));
-      toast.success("Time Slot deleted successfully");
+      toast.success("Time Slot was deleted successfully");
     }
 
     toggleModalConfirm();
@@ -117,7 +117,7 @@ export default function TimeSlotItem(props: Props) {
       };
 
       await dispatch(editTimeSlotThunk(timeSlotResponse.id, dataUpdate));
-      toast.success("Time Slot Edit Successfully");
+      toast.success("Time Slot was edited successfully");
     }
 
     if (type === MODAL_ACTION_CLOSE) {

@@ -23,11 +23,6 @@ const arrSelectSideBar = [
     name: "Schedule Timing",
     icon: <AccessTimeIcon className="side__bar-icon" />,
   },
-  // {
-  //   url: "/doctor/message",
-  //   name: "Message",
-  //   icon: <ForumOutlinedIcon className="side__bar-icon" />,
-  // },
 ];
 
 const logo = require("../../../assets/img/logo-hospital-care.png");
@@ -57,7 +52,7 @@ export default function SideBar({}: Props) {
           )}
         </div>
         <h3 className="name__doctor">
-          Dr {currentUser.firstName} {currentUser.lastName}
+          Dr. {currentUser.firstName} {currentUser.lastName}
         </h3>
       </div>
       <div className="list__side__bar">

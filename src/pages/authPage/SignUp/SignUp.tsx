@@ -22,6 +22,7 @@ import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { NavLink, useNavigate } from "react-router-dom";
 import FormLoginRegister from "../../../templates/FormLoginRegister";
 import { signUpService } from "../../../services/userService";
+import { ProgressListener } from "../../../components/Progress";
 const flagVN = require("../../../assets/img/vietnam_flag.png");
 
 type Props = {};
@@ -52,6 +53,7 @@ export default function SignUp(props: Props) {
 
   const registerApi = async (dataRegister: IPatientRegister) => {
     const response = await signUpService({ ...dataRegister, role: "PATIENT" });
+    ProgressListener.emit("stop");
 
     if (response.statusCode && response.statusCode > 400) {
       setTextErrorResponse(response.message);
@@ -90,6 +92,8 @@ export default function SignUp(props: Props) {
     }),
 
     onSubmit: (values) => {
+      ProgressListener.emit("start");
+
       registerApi(values);
     },
   });
@@ -97,7 +101,7 @@ export default function SignUp(props: Props) {
   const { values, errors, handleChange, handleSubmit } = formik;
 
   const formRegister: JSX.Element = (
-    <form action="" onSubmit={handleSubmit} className="form__login__register">
+    <form action="" onSubmit={handleSubmit} className="form__input">
       <Grid container spacing={2}>
         <Grid item xs={12} lg={6} md={6}>
           <div className="container__input">

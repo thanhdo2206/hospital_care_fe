@@ -130,6 +130,11 @@
   padding: 10px 20px;
 }
 
+.appointment__item .appointment__action .text__status.pending {
+  background-color: rgba(255, 152, 0, 0.12);
+  color: #f39c12;
+}
+
 .appointment__item .appointment__action .text__status.approved {
   background-color: rgba(15, 183, 107, 0.12);
   color: #26af48;

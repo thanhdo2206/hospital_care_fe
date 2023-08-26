@@ -17,6 +17,7 @@ import { RootState } from "../../../redux/configStore";
 import { useSelector } from "react-redux";
 import { getStorage } from "../../../utils/localStorage";
 import { AUTH } from "../../../constants/constants";
+import { ProgressListener } from "../../../components/Progress";
 
 type Props = {
   medical?: IMedicalExamination | null;
@@ -90,9 +91,13 @@ export default function ReviewExamination(props: Props) {
     }
 
     if (medical) {
+      ProgressListener.emit("start");
+
       await addFeedbackService(medical.id, inputFeedback);
-      getAllFeedbacks();
+      await getAllFeedbacks();
       setInputFeedback("");
+      ProgressListener.emit("stop");
+      toast.success("Your feedback was added successfully");
     }
   };
 

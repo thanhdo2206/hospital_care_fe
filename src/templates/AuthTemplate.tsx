@@ -13,21 +13,24 @@ export default function AuthTemplate({}: Props) {
   const { currentUser } = useSelector((state: RootState) => state.userSlice);
   const auth = getStorage(AUTH);
   const location = useLocation();
+  const pathNameCurentURL = location.pathname;
+  const arrPathNameCheck = ["/", "/login", "/sign-up"];
+  const checkPathName = arrPathNameCheck.includes(pathNameCurentURL);
 
   const redirect = () => {
     if (auth && currentUser) {
-      if (currentUser.role === ROLE.DOCTOR && location.pathname === "/") {
+      if (currentUser.role === ROLE.DOCTOR && checkPathName) {
         navigate("/doctor/appointment");
         return;
       }
 
-      if (currentUser.role === ROLE.PATIENT && location.pathname === "/") {
+      if (currentUser.role === ROLE.PATIENT && checkPathName) {
         navigate("/search-doctor");
         return;
       }
     }
 
-    if (location.pathname === "/") navigate("/search-doctor");
+    if (!auth && location.pathname === "/") navigate("/search-doctor");
   };
 
   useEffect(() => {

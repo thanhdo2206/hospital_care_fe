@@ -5,3 +5,5 @@ export const PASSWORD_REGEX =
 
 export const PHONE_REGEX_VN =
   /^(0|84)(2[03]|3[25]|4[12567]|5[2689]|6[2389]|7[06789]|8[15689]|9[0356789])\d{7}$/;
+
+export const IMAGE_REGEX = /\.(jpg|jpeg|png)$/;

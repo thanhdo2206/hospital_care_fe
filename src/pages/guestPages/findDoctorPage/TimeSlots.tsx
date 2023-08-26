@@ -6,6 +6,7 @@ import { ITimeSlot } from "../../../interface/TimeSlotInterface";
 import { convertVND } from "../../../utils/convertMoney";
 import {
   addHoursToDate,
+  checkPassCurrentDay,
   formatDate,
   getTimeSlotsAfterCurrentDay,
   getTimeSlotsDateFirst,
@@ -24,7 +25,9 @@ type Props = {
 export default function TimeSlots(props: Props) {
   const { timeSlotsResponse, examinationPrice, examinationTitle } = props;
 
-  const timeSlots = timeSlotsResponse.filter((item) => !item.statusTimeSlot);
+  const timeSlots = timeSlotsResponse.filter(
+    (item) => !item.statusTimeSlot && checkPassCurrentDay(item.startTime)
+  );
 
   const listTimeSlotsAfterCurrentDay: ITimeSlot[] =
     timeSlots.length === 0 ? [] : getTimeSlotsAfterCurrentDay(timeSlots);

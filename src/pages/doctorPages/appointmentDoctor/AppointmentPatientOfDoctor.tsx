@@ -9,6 +9,7 @@ import {
 import { getAllAppointmentPatientForDoctorService } from "../../../services/appointmentService";
 import TableAppointment from "./TableAppointment";
 import { IMedicalExamination } from "../../../interface/MedicalExaminationInterface";
+import Avatar from "react-avatar";
 
 type Props = {};
 
@@ -53,7 +54,11 @@ export default function AppointmentPatientOfDoctor({}: Props) {
       <div className="card widget__profile-paient">
         <div className="card__header">
           <div className="profile__info-widget">
-            <img src={appointments[0]?.patient.avatar} alt="" />
+            {appointments[0]?.patient.avatar ? (
+              <img src={appointments[0]?.patient.avatar} alt="" />
+            ) : (
+              <Avatar facebookId="100008343750912" size="100" round={true} />
+            )}
             <h3>
               {appointments[0]?.patient.firstName}{" "}
               {appointments[0]?.patient.lastName}

@@ -38,9 +38,9 @@ export default function HeaderAccount({}: Props) {
           aria-expanded={open ? "true" : undefined}
         >
           {currentUser.avatar ? (
-            <img className="img__doctor" src={currentUser.avatar} alt="" />
+            <img className="img__patient" src={currentUser.avatar} alt="" />
           ) : (
-            <Avatar facebookId="100008343750912" size="36" round={true} />
+            <Avatar facebookId="100008343750912" size="40" round={true} />
           )}
         </IconButton>
       </Tooltip>
@@ -64,11 +64,11 @@ export default function HeaderAccount({}: Props) {
       >
         <Box className="header__menu-item">
           {currentUser.avatar ? (
-            <img className="img__doctor" src={currentUser.avatar} alt="" />
+            <img className="img__patient" src={currentUser.avatar} alt="" />
           ) : (
-            <Avatar facebookId="100008343750912" size="36" round={true} />
+            <Avatar facebookId="100008343750912" size="44" round={true} />
           )}
-          <Box>
+          <Box className="infor__patient">
             <p className="name__patient">
               {currentUser.firstName} {currentUser.lastName}
             </p>
@@ -76,12 +76,15 @@ export default function HeaderAccount({}: Props) {
           </Box>
         </Box>
         <MenuItem className="menu__item" onClick={handleClose}>
-          <NavLink className="nav__link" to="/">
+          <NavLink className="nav__link" to="/patient/dashboard/profile">
             Profile
           </NavLink>
         </MenuItem>
         <MenuItem className="menu__item" onClick={handleClose}>
-          <NavLink className="nav__link" to="/">
+          <NavLink
+            className="nav__link"
+            to="/patient/dashboard/history-appointment"
+          >
             Appointment
           </NavLink>
         </MenuItem>

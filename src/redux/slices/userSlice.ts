@@ -4,6 +4,7 @@ import { DispatchType } from "../configStore";
 import {
   getCurrentUserService,
   updateProfileUserService,
+  uploadAvatarUserService,
 } from "../../services/userService";
 
 export type UserState = {
@@ -55,6 +56,18 @@ export const updateProfileUserThunk = (dataUpdate: IUser) => {
   return async (dispatch: DispatchType) => {
     try {
       const data = await updateProfileUserService(dataUpdate);
+
+      dispatch(getCurrentUserAction(data));
+    } catch (error) {
+      return error;
+    }
+  };
+};
+
+export const uploadAvatarUserThunk = (formData: any) => {
+  return async (dispatch: DispatchType) => {
+    try {
+      const data = await uploadAvatarUserService(formData);
 
       dispatch(getCurrentUserAction(data));
     } catch (error) {

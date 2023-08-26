@@ -7,7 +7,7 @@ type Props = {
   icon?: React.ReactNode;
   className?: string;
   type?: "submit" | "reset" | "button" | undefined;
-  onClickBtn?: () => void;
+  onClickBtn?: (event: React.MouseEvent<HTMLElement>) => void;
   backgroundColor?: string;
 };
 

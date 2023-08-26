@@ -1,5 +1,9 @@
 import { ACCESS_TOKEN } from "../constants/constants";
-import { IPatientLogin, IPatientRegister, IUser } from "../interface/UserInterface";
+import {
+  IPatientLogin,
+  IPatientRegister,
+  IUser,
+} from "../interface/UserInterface";
 import { setStorage } from "../utils/localStorage";
 import requestApi from "../utils/requestApi/requestApi";
 import requestAuthApi from "../utils/requestApi/requestAuthApi";
@@ -51,13 +55,31 @@ export const getCurrentUserService = async (): Promise<any> => {
   }
 };
 
-
-export const updateProfileUserService = async (dataUpdate:IUser): Promise<any> => {
+export const updateProfileUserService = async (
+  dataUpdate: IUser
+): Promise<any> => {
   try {
     const responseApi = await requestAuthApi({
       method: "patch",
       url: `/user`,
       data: dataUpdate,
+    });
+    return responseApi.data;
+  } catch (error: any) {
+    const { data } = error.response;
+    return data;
+  }
+};
+
+export const uploadAvatarUserService = async (formData: any): Promise<any> => {
+  try {
+    const responseApi = await requestAuthApi({
+      method: "post",
+      url: `/user/upload-avatar`,
+      data: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
     return responseApi.data;
   } catch (error: any) {

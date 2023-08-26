@@ -17,3 +17,5 @@ export const CHECK_PASSWORD_MATCH_REGEX =
 export const CHECK_PHONE_NUMBER_EMPTY = "Enter your phone number ";
 export const CHECK_PHONE_NUMBER_MATCH_REGEX =
   "Please enter a valid phone number";
+export const CHECK_IMAGE_MATCH_REGEX =
+  "Only files with the following extensions are allowed: jpg, jpeg, png";

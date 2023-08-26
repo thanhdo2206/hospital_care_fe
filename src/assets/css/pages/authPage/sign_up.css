@@ -1,8 +1,8 @@
-.form__login__register .container__input .text__field.phone__input input {
+.form__input .container__input .text__field.phone__input input {
   padding-left: 0px;
 }
 
-.form__login__register .container__input .text__field.phone__input .img__flag {
+.form__input .container__input .text__field.phone__input .img__flag {
   width: 30px;
   height: 20px;
 }

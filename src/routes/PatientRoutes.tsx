@@ -3,9 +3,11 @@ import { Route, RouteObject } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import { ROLE } from "../constants/enums";
 
-import Profile from "../pages/patientPages/Profile";
 import HomeTemplate from "../templates/HomeTemplate";
 import BookAppointment from "../pages/patientPages/bookAppointment/BookAppointment";
+import PatientDashBoard from "../pages/patientPages/patientDashboard/PatientDashboard";
+import HistoryAppointment from "../pages/patientPages/historyAppointment/HistoryAppointment";
+import PatientProfile from "../pages/patientPages/patientProfile/PatientProfile";
 
 const patientRoutes: RouteObject[] = [
   {
@@ -20,7 +22,20 @@ const patientRoutes: RouteObject[] = [
         path: "book-appointment/:id",
         element: <BookAppointment />,
       },
-      { path: "profile", element: <Profile /> },
+      {
+        path: "dashboard",
+        element: <PatientDashBoard />,
+        children: [
+          {
+            path: "history-appointment",
+            element: <HistoryAppointment />,
+          },
+          {
+            path: "profile",
+            element: <PatientProfile />,
+          },
+        ],
+      },
     ],
   },
 ];

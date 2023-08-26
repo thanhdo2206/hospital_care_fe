@@ -14,6 +14,7 @@ import FormLoginRegister from "../../../templates/FormLoginRegister";
 import { IPatientLogin, IUser } from "../../../interface/UserInterface";
 import { loginService } from "../../../services/userService";
 import { ROLE } from "../../../constants/enums";
+import { ProgressListener } from "../../../components/Progress";
 
 type Props = {};
 
@@ -41,15 +42,17 @@ export default function Login({}: Props) {
     }),
 
     onSubmit: (values) => {
+      ProgressListener.emit("start");
+
       loginApi(values);
-      // console.log(values);
     },
   });
 
-  const { values, errors, handleChange, handleSubmit, handleBlur } = formik;
+  const { values, errors, handleChange, handleSubmit } = formik;
 
   const loginApi = async (dataLogin: IPatientLogin) => {
     const response = await loginService(dataLogin);
+    ProgressListener.emit("stop");
 
     if (response.statusCode && response.statusCode > 400) {
       setTextErrorResponse(response.message);
@@ -73,7 +76,7 @@ export default function Login({}: Props) {
   };
 
   const formLogin: JSX.Element = (
-    <form action="" onSubmit={handleSubmit} className="form__login__register">
+    <form action="" onSubmit={handleSubmit} className="form__input">
       <Grid container spacing={2}>
         <Grid item xs={12} lg={12} md={12}>
           <div className="container__input">

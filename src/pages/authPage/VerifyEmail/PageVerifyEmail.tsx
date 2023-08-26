@@ -32,9 +32,9 @@ export default function PageVerifyEmail({}: Props) {
     verifyEmailApi();
   }, [emailToken, userId]);
 
-  return (
-    <div className="container__verify__email">
-      {responseApi.statusCode === 200 ? (
+  const renderComponent = () => {
+    if (responseApi.statusCode === 200) {
+      return (
         <div className="verify__success">
           <img src={imgVerifyEmailSuccess} alt="" />
           <p>Your email has been verified. Your account is now active.</p>
@@ -43,13 +43,21 @@ export default function PageVerifyEmail({}: Props) {
             <ButtonCustomize text="Login to your account"></ButtonCustomize>
           </NavLink>
         </div>
-      ) : (
+      );
+    }
+
+    if (responseApi.statusCode === 401) {
+      return (
         <div className="verify__fail">
           <img src={imgVerifyEmailFail} alt="" />
           <h1>Error</h1>
           <p>{responseApi.message}</p>
         </div>
-      )}
-    </div>
-  );
+      );
+    }
+
+    return <></>;
+  };
+
+  return <div className="container__verify__email">{renderComponent()}</div>;
 }

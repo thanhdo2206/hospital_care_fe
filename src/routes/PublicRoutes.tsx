@@ -8,6 +8,7 @@ import HomeTemplate from "../templates/HomeTemplate";
 import AuthTemplate from "../templates/AuthTemplate";
 import MainFindDoctor from "../pages/guestPages/findDoctorPage/MainFindDoctor";
 import DetailExamination from "../pages/guestPages/detailExamination/DetailExamination";
+import PageNotFound from "../pages/authPage/DeniedPage/PageNotFound";
 
 const publicRoutes: RouteObject[] = [
   {
@@ -48,7 +49,7 @@ const publicRoutes: RouteObject[] = [
   },
   {
     path: "*",
-    element: <div>Page Not Found</div>,
+    element: <PageNotFound/>
   },
 ];
 

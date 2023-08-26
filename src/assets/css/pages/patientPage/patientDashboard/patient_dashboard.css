@@ -1,0 +1,95 @@
+.patient_dashboard {
+  padding: 116px 50px 0px 50px;
+  display: flex;
+}
+
+.patient_dashboard .patient_dasboard_outlet {
+  flex: 1;
+}
+
+.container_patient_sidebar {
+  margin-right: 126px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20%;
+}
+
+.container_patient_sidebar .avatar_patient {
+  width: 150px;
+  height: 150px;
+  position: relative;
+}
+
+.container_patient_sidebar .avatar_patient .form__upload__img {
+  position: absolute;
+  top: 106px;
+  right: 0px;
+}
+
+.container_patient_sidebar .avatar_patient .form__upload__img #upload__photo {
+  display: none;
+}
+
+.container_patient_sidebar .avatar_patient .form__upload__img label {
+  padding: 4px;
+  cursor: pointer;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container_patient_sidebar .avatar_patient .form__upload__img label svg {
+  color: #fff;
+}
+
+.container_patient_sidebar .avatar_patient .form__upload__img label:hover {
+  background: var(--color-button-hover);
+}
+
+.container_patient_sidebar .avatar_patient img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1px solid var(--color-title);
+  object-fit: cover;
+}
+
+.container_patient_sidebar .error__input__image {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+  line-height: 16px;
+}
+
+.container_patient_sidebar h1 {
+  color: var(--color-title);
+  margin-top: 20px;
+}
+
+.container_patient_sidebar .list_patient_sidebar {
+  margin-top: 42px;
+}
+
+.container_patient_sidebar .list_patient_sidebar li {
+  margin-top: 12px;
+}
+
+.container_patient_sidebar .list_patient_sidebar li .nav_link {
+  text-decoration: none;
+  color: #ccc;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.container_patient_sidebar .list_patient_sidebar li:hover {
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.container_patient_sidebar .list_patient_sidebar li .nav_link.active {
+  color: var(--primary-color);
+}

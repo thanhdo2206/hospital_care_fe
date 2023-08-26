@@ -1,0 +1,29 @@
+.page_access_denied {
+  text-align: center;
+  padding: 24px 0px;
+}
+
+.page_access_denied > .img_access_denied {
+  height: 392px;
+}
+
+.page_access_denied > .img_access_denied > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.page_access_denied > h1 {
+  font-size: 72px;
+  color: var(--color-title);
+  margin-bottom: 16px;
+}
+
+.page_access_denied > p {
+  letter-spacing: 1px;
+  line-height: 22px;
+}
+
+.page_access_denied > button {
+  margin-top: 20px;
+}

@@ -11,27 +11,31 @@ import MenuItem from "@mui/material/MenuItem";
 import Pagination from "@mui/material/Pagination";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 import "../../../assets/css/pages/doctorPage/appointmentDoctor/appointment_doctor.css";
-import {
-  IAppointment,
-  IAppointmentPageable,
-} from "../../../interface/AppointmentInterface";
+import { IAppointment } from "../../../interface/AppointmentInterface";
 import { DispatchType, RootState } from "../../../redux/configStore";
 import {
   changeStatusAppointmentThunk,
   getAllAppointmentDoctorPageableThunk,
 } from "../../../redux/slices/appointmentSlice";
 
-import { formatDate } from "../../../utils/date";
+import {
+  addHoursToDate,
+  checkPassCurrentDay,
+  formatDate,
+  getTimeZone,
+} from "../../../utils/date";
 
 import SketonItem from "./SketonItem";
 import { StatusAppointment } from "../../../constants/enums";
 import { PAGINATION_LIMIT } from "../../../constants/constants";
+import Avatar from "react-avatar";
 
 type Props = {};
 
@@ -47,7 +51,6 @@ export default function AppointmentDoctor({}: Props) {
   const { appointmentPageable } = useSelector(
     (state: RootState) => state.appointmentSlice
   );
-  // const { isCheckInitialStatus } = useSelector((state:RootState) => state.auths);
 
   const [status, setStatus] = useState(`${StatusAppointment.Pending}`);
   const [page, setPage] = useState(1);
@@ -60,7 +63,7 @@ export default function AppointmentDoctor({}: Props) {
     appointmentStatus: number
   ) => {
     setIsLoading(true);
-    setTimeout(() => {
+    await setTimeout(() => {
       dispatch(
         getAllAppointmentDoctorPageableThunk(
           pageIndex,
@@ -73,9 +76,6 @@ export default function AppointmentDoctor({}: Props) {
   };
 
   useEffect(() => {
-    // if (!isCheckInitialStatus) {
-    //   getAllAppointmentDoctorPageable(page, PAGINATION_LIMIT, +status);
-    // }
     getAllAppointmentDoctorPageable(page, PAGINATION_LIMIT, +status);
   }, []);
 
@@ -111,7 +111,11 @@ export default function AppointmentDoctor({}: Props) {
     appointmentId: number,
     appointment: IAppointment
   ) => {
-    if (checkStatus === StatusAppointment.Pending) {
+    const { TimeSlot } = appointment;
+    if (
+      checkStatus === StatusAppointment.Pending &&
+      checkPassCurrentDay(TimeSlot.startTime)
+    ) {
       return (
         <>
           <Button
@@ -124,7 +128,7 @@ export default function AppointmentDoctor({}: Props) {
                 StatusAppointment.Approved,
                 appointment
               );
-              toast.success("Appointment Approved");
+              toast.success("Appointment was approved successfully");
             }}
           >
             Approve
@@ -139,13 +143,17 @@ export default function AppointmentDoctor({}: Props) {
                 StatusAppointment.Cancel,
                 appointment
               );
-              toast.success("Appointment Canceled");
+              toast.success("Appointment was canceled successfully");
             }}
           >
             Cancel
           </Button>
         </>
       );
+    }
+
+    if (checkStatus === StatusAppointment.Pending) {
+      return <span className="text__status pending">Pending</span>;
     }
 
     if (checkStatus === StatusAppointment.Approved) {
@@ -164,6 +172,12 @@ export default function AppointmentDoctor({}: Props) {
         const arrInforPatient = [
           {
             icon: <AccessTimeFilledOutlinedIcon className="icon__infor" />,
+            value: `${getTimeZone(TimeSlot.startTime)} - ${getTimeZone(
+              addHoursToDate(new Date(TimeSlot.startTime), TimeSlot.duration)
+            )}`,
+          },
+          {
+            icon: <CalendarMonthIcon className="icon__infor" />,
             value: formatDate(new Date(TimeSlot.startTime)),
           },
           {
@@ -183,7 +197,11 @@ export default function AppointmentDoctor({}: Props) {
           <div className="appointment__item" key={index}>
             <div className="profile__infor">
               <div className="avatar__patient">
-                <img src={patient.avatar} alt="" />
+                {patient.avatar ? (
+                  <img className="img__patient" src={patient.avatar} alt="" />
+                ) : (
+                  <Avatar facebookId="100008343750912" size="120" />
+                )}
               </div>
               <div className="infor__patient">
                 <NavLink

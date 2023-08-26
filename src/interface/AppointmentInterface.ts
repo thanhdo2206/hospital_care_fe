@@ -4,10 +4,8 @@ import { IUser } from "./UserInterface";
 
 export interface IAppointment {
   id: number;
-  createdBy: null;
-  modifiedBy: null;
-  createdDate: Date;
-  modifiedDate: Date;
+  createdAt: null;
+  updatedAt: null;
   status: number;
   patientId: number;
   timeSlotId: number;
@@ -24,4 +22,21 @@ export interface IAppointmentPageable {
 export interface IAppointmentPatientSpecificOfDoctor {
   listAppointment: IAppointment[];
   medicalExamination: IMedicalExamination;
+}
+
+export interface IHistoryAppointmentPatient {
+  id: number;
+  createdAt: null;
+  updatedAt: null;
+  status: number;
+  patientId: number;
+  timeSlotId: number;
+  doctorId: number;
+  departmentName: string;
+  avatarDoctor: string;
+  firstNameDoctor: string;
+  lastNameDoctor: string;
+  startTime: Date;
+  duration: number;
+  examinationPrice: number;
 }

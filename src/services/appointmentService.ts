@@ -66,3 +66,15 @@ export const getAllAppointmentPatientForDoctorService = async (
     return error;
   }
 };
+
+export const getHistoryAppointmentPatientService = async () => {
+  try {
+    const response = await requestAuthApi({
+      url: `/appointments/patient`,
+      method: "get",
+    });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};

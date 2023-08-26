@@ -1,0 +1,29 @@
+.page_404 {
+  text-align: center;
+  padding: 60px 0px;
+}
+.page_404 > h1 {
+  font-size: 80px;
+  color: var(--color-title);
+}
+
+.page_404 > .img_404 {
+  height: 392px;
+}
+
+.page_404 > .img_404 > img {
+  width: 100%;
+  height: 100%;
+  object-fit: none;
+}
+
+.page_404 > h3 {
+  font-size: 30px;
+  margin-bottom: 8px;
+  color: var(--color-title);
+}
+
+.page_404 > a {
+  margin-top: 20px;
+  display: block;
+}

@@ -80,7 +80,6 @@ export default function FormAppointment(props: Props) {
       }
 
       bookAppointmentApi();
-      navigate("/search-doctor");
     },
   });
 
@@ -94,6 +93,7 @@ export default function FormAppointment(props: Props) {
     await dispatch(getAllMedicalExaminationTimeThunk());
     // await dispatch(getListAppointment());
     toast.success("Your appointment has been booked successfully.");
+    navigate("/patient/dashboard/history-appointment");
   };
 
   const updateProfile = async (dataUserProfile: IUser) => {
