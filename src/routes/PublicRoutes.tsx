@@ -9,6 +9,7 @@ import AuthTemplate from "../templates/AuthTemplate";
 import MainFindDoctor from "../pages/guestPages/findDoctorPage/MainFindDoctor";
 import DetailExamination from "../pages/guestPages/detailExamination/DetailExamination";
 import PageNotFound from "../pages/authPage/DeniedPage/PageNotFound";
+import HomePage from "../pages/guestPages/homePage/HomePage";
 
 const publicRoutes: RouteObject[] = [
   {
@@ -37,6 +38,10 @@ const publicRoutes: RouteObject[] = [
     path: "",
     element: <HomeTemplate />,
     children: [
+       {
+        path: "home",
+        element: <HomePage />
+      },
       {
         path: "search-doctor",
         element: <MainFindDoctor />,

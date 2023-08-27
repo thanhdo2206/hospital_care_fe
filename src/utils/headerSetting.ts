@@ -3,7 +3,7 @@ import { IHeaderNav } from "../interface/HeaderInterface";
 export const arrNavigations: IHeaderNav[] = [
   {
     nameNavItem: "Home",
-    link: "/",
+    link: "/home",
   },
   {
     nameNavItem: "Find a Doctor",

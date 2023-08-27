@@ -41,23 +41,7 @@ export default function FormSelectTime(props: Props) {
 
   const [isSelectStartTime, setIsSelectStartTime] = useState<boolean>(false);
 
-  // const getOptionsEndTime = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const startTime: Date = new Date(event.target.value)
-  //   const arrEndTimeTemporary: Date[] = [
-  //     addHoursToDate(startTime, 30),
-  //     addHoursToDate(startTime, 60)
-  //   ]
-  //   const arrEndTimeCorrect: Date[] = arrEndTimeTemporary.filter(
-  //     (endTimeTemporary) => {
-  //       const checkExist = arrEndTime.some(
-  //         (endTime) => endTime.getTime() === endTimeTemporary.getTime()
-  //       )
-  //       return !checkExist
-  //     }
-  //   )
-
-  //   setArrEndTimeCorrect(arrEndTimeCorrect)
-  // }
+ 
 
   const getOptionsEndTime = (startTimeOption: string) => {
     const startTime: Date = new Date(startTimeOption);
@@ -65,7 +49,6 @@ export default function FormSelectTime(props: Props) {
       addHoursToDate(startTime, 30),
       addHoursToDate(startTime, 60),
     ];
-    // console.log('arrEndTimeTemporary', arrEndTimeTemporary)
     const arrEndTimeCorrect: Date[] = arrEndTimeTemporary.filter(
       (endTimeTemporary) => {
         const checkExist = arrEndTime.some(
@@ -86,20 +69,13 @@ export default function FormSelectTime(props: Props) {
   const [startTime, setStartTime] = useState<string>(valueStartTime);
   const [endTime, setEndTime] = useState<string>(valueEndTime);
 
-  // console.log(
-  //   `ref arrStartTimeCorrect select ${indexTimeItem}`,
-  //   arrStartTimeCorrectRef.current
-  // )
-  // console.log(` arrEndTimeCorrect select ${indexTimeItem}`, arrEndTimeCorrect)
 
-  // console.log(` start time select ${indexTimeItem}`, startTime)
 
   const renderValueStartTimeOption = () => {
     const checkExist = arrStartTimeCorrect.some(
       (startTimeItem) =>
         startTimeItem.getTime() === new Date(valueStartTime).getTime()
     );
-    // console.log(`value start time select ${indexTimeItem}`, valueStartTime)
 
     return !checkExist && valueStartTime ? (
       <option value={valueStartTime}>

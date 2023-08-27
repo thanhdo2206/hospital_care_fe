@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 
 import Button from "../../../components/ButtonCustomize";
@@ -10,36 +10,51 @@ import { filterMedicalExaminationTimeThunkByCategoryAndPrice } from "../../../re
 import { getAllCategoryService } from "../../../services/categoryService";
 import { useDispatch } from "react-redux";
 import { DispatchType } from "../../../redux/configStore";
+import { useSearchParams } from "react-router-dom";
 
-type checkOptions = {
+type TypeCheckOptions = {
   [key: string]: boolean;
+};
+
+type TypeFilter = {
+  categories?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  [key: string]: any;
 };
 
 export default function FilterDoctor() {
   const dispatch: DispatchType = useDispatch();
 
-  const [categories, setCategories] = useState<ICategory[]>();
+  // const [categories, setCategories] = useState<ICategory[]>();
+
+  const checkFilterInitial = useRef(true);
+
+  const [categoryCheck, setCategoryCheck] = useState<TypeCheckOptions>({});
+
+  const [filterParams, setFilterParams] = useSearchParams();
+
   const getAllCategories = async () => {
     const arrCategory = await getAllCategoryService();
-    setCategories(arrCategory);
+    // setCategories(arrCategory);
+    createInitialCategoryCheck(arrCategory);
+  };
+
+  const createInitialCategoryCheck = (arrCategory: ICategory[]) => {
+    const arrNameCategory = arrCategory?.map((item) => item.name);
+    const initialCategoryCheck: TypeCheckOptions = {};
+    arrNameCategory?.forEach((item) => {
+      initialCategoryCheck[item] = false;
+    });
+
+    setCategoryCheck(initialCategoryCheck);
+
+    return initialCategoryCheck;
   };
 
   useEffect(() => {
     getAllCategories();
   }, []);
-
-  const createInitialCategoryCheck = () => {
-    const arrNameCategory = categories?.map((item) => item.name);
-    const initialCategoryCheck: checkOptions = {};
-    arrNameCategory?.forEach((item) => {
-      initialCategoryCheck[item] = false;
-    });
-    return initialCategoryCheck;
-  };
-
-  const [categoryCheck, setCategoryCheck] = useState<checkOptions>(
-    createInitialCategoryCheck()
-  );
 
   const formik = useFormik<IMedicalExaminationFilter>({
     initialValues: {
@@ -48,18 +63,27 @@ export default function FilterDoctor() {
       maxPrice: 999999999999,
     },
     onSubmit: (values) => {
+      filterParams.delete("nameDoctor");
+
       let { category, minPrice, maxPrice } = values;
+      const objCategoryCheck = { ...categoryCheck };
+      const arrCategory = Object.keys(objCategoryCheck).filter(
+        (item) => objCategoryCheck[item]
+      );
       ProgressListener.emit("start");
       setTimeout(() => {
         dispatch(
           filterMedicalExaminationTimeThunkByCategoryAndPrice(
-            category,
+            arrCategory.join(","),
             minPrice,
             maxPrice
           )
         );
         ProgressListener.emit("stop");
       }, 2000);
+      filterParams.set("minPrice", `${minPrice}`);
+      filterParams.set("maxPrice", `${maxPrice}`);
+      setFilterParams(filterParams);
     },
   });
 
@@ -72,11 +96,26 @@ export default function FilterDoctor() {
     const arrCategory = Object.keys(objCategoryCheck).filter(
       (item) => objCategoryCheck[item]
     );
+
+    filterParams.delete("nameDoctor");
+    const paramsMinPrice = filterParams.get("minPrice");
+    const paramsMaxPrice = filterParams.get("maxPrice");
+    values.minPrice = paramsMinPrice ? +paramsMinPrice : 0;
+    values.maxPrice = paramsMaxPrice ? +paramsMaxPrice : 999999999999;
+
+    setFieldValue("minPrice", values.minPrice);
+    setFieldValue("maxPrice", values.maxPrice);
+
+    // if (!paramsMinPrice || !paramsMaxPrice) {
+    //   setFieldValue("minPrice", 0);
+    //   setFieldValue("maxPrice", 999999999999);
+    // }
+
     ProgressListener.emit("start");
     setTimeout(() => {
       dispatch(
         filterMedicalExaminationTimeThunkByCategoryAndPrice(
-          arrCategory,
+          arrCategory.join(","),
           values.minPrice,
           values.maxPrice
         )
@@ -84,8 +123,82 @@ export default function FilterDoctor() {
       ProgressListener.emit("stop");
     }, 2000);
 
+    arrCategory.length === 0
+      ? filterParams.delete("categories")
+      : filterParams.set("categories", arrCategory.join(","));
+    setFilterParams(filterParams);
+
     setCategoryCheck(objCategoryCheck);
   };
+
+  const getFilterURL = () => {
+    const params: TypeFilter = {};
+
+    filterParams.forEach((value, key) => {
+      params[key] = value;
+    });
+
+    if (Object.keys(categoryCheck).length !== 0 && checkFilterInitial.current) {
+      filterDoctor(params);
+      checkFilterInitial.current = false;
+    }
+
+    let arrCategoryURL = params.categories?.split(",");
+
+    arrCategoryURL?.map((nameCategoryURL) => {
+      categoryCheck[nameCategoryURL] = true;
+    });
+
+    values.minPrice = params.minPrice ? +params.minPrice : 0;
+    values.maxPrice = params.maxPrice ? +params.maxPrice : 999999999999;
+  };
+
+  const filterDoctor = (params: TypeFilter) => {
+    let { categories, minPrice, maxPrice } = params;
+
+    categories = categories ?? "";
+    minPrice = minPrice ? +minPrice : 0;
+    maxPrice = maxPrice ? +maxPrice : 999999999999;
+    if (categories || params.minPrice) {
+      ProgressListener.emit("start");
+      setTimeout(() => {
+        dispatch(
+          filterMedicalExaminationTimeThunkByCategoryAndPrice(
+            categories as string,
+            Number(minPrice),
+            Number(maxPrice)
+          )
+        );
+        ProgressListener.emit("stop");
+      }, 2000);
+    }
+  };
+
+  const setFilterInitial = () => {
+    const nameDoctor = filterParams.get("nameDoctor");
+
+    if (nameDoctor) {
+      let categoryInitial: TypeCheckOptions = {};
+
+      Object.keys(categoryCheck).map((nameCategory) => {
+        categoryInitial[nameCategory] = false;
+        categoryCheck[nameCategory] = false;
+      });
+
+      setCategoryCheck(categoryInitial);
+
+      values.minPrice = 0;
+      values.maxPrice = 999999999999;
+    }
+  };
+
+  useEffect(() => {
+    getFilterURL();
+  }, [categoryCheck]);
+
+  useEffect(() => {
+    setFilterInitial();
+  }, [filterParams]);
 
   return (
     <div className="filter__container">
@@ -95,7 +208,7 @@ export default function FilterDoctor() {
             <h3>Categories</h3>
           </div>
           <div className="filter__widget filter__checkbox">
-            {categories?.map((category, index) => {
+            {Object.keys(categoryCheck)?.map((nameCategory: string, index) => {
               return (
                 <div key={index}>
                   <label className="custom_check">
@@ -103,9 +216,10 @@ export default function FilterDoctor() {
                       onChange={handleChangeCheckbox}
                       type="checkbox"
                       name="category"
-                      value={category.name}
+                      value={nameCategory}
+                      checked={categoryCheck[nameCategory]}
                     />
-                    <span className="checkmark" /> {category.name}
+                    <span className="checkmark" /> {nameCategory}
                   </label>
                 </div>
               );

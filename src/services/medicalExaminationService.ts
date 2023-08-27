@@ -1,15 +1,13 @@
 import requestApi from "../utils/requestApi/requestApi";
 
 export const filterMedicalExaminationTimeByCategoryAndPriceService = async (
-  categories: string[],
+  categories: string,
   minPrice: number,
   maxPrice: number
 ) => {
   try {
     const response = await requestApi({
-      url: `/medical_examinations/filter/category_price?categories=${categories.join(
-        ","
-      )}&minPrice=${minPrice}&maxPrice=${maxPrice}`,
+      url: `/medical_examinations/filter/category_price?categories=${categories}&minPrice=${minPrice}&maxPrice=${maxPrice}`,
       method: "get",
     });
     return response.data;

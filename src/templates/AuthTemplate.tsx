@@ -30,7 +30,7 @@ export default function AuthTemplate({}: Props) {
       }
     }
 
-    if (!auth && location.pathname === "/") navigate("/search-doctor");
+    if (!auth && location.pathname === "/") navigate("/home");
   };
 
   useEffect(() => {

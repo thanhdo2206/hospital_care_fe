@@ -48,7 +48,7 @@ export const {
 export default medicalExaminationSlice.reducer;
 
 export const filterMedicalExaminationTimeThunkByCategoryAndPrice = (
-  categories: string[],
+  categories: string,
   minPrice: number,
   maxPrice: number
 ) => {

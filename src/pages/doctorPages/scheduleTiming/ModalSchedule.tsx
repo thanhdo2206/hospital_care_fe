@@ -223,7 +223,6 @@ export default function ModalSchedule(props: Props) {
       arrEndTimeUpdate.push(addHoursToDate(new Date(selectTime.startTime), 30));
     }
     createArrStartTimeCorrect(arrStartTimeUpdate, arrStartTimeCorrect);
-    // console.log('arrEndTimeUpdate', arrEndTimeUpdate)
     setArrEndTime([...arrEndTimeUpdate]);
   };
 

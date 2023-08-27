@@ -172,7 +172,7 @@
 
 .container__detail__information .tab__content--item li::before {
   position: absolute;
-  content: '';
+  content: "";
   border: 3px solid #dad9e7;
   width: 8px;
   height: 8px;
@@ -199,7 +199,7 @@
   margin-right: 20px;
 }
 
-.tab__content--item .reviews_container .review_item .avatar_patient > img {
+.tab__content--item .reviews_container .review_item .avatar_patient  img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -232,7 +232,7 @@
   border-radius: 10px;
 }
 
-.tab__content--item > .input_review > img {
+.tab__content--item > .input_review  img {
   width: 45px;
   height: 45px;
   margin-right: 20px;

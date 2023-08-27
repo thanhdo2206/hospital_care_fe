@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import { getStorage } from "../../../utils/localStorage";
 import { AUTH } from "../../../constants/constants";
 import { ProgressListener } from "../../../components/Progress";
+import Avatar from "react-avatar";
 
 type Props = {
   medical?: IMedicalExamination | null;
@@ -51,7 +52,11 @@ export default function ReviewExamination(props: Props) {
         return (
           <div className="review_item" key={index}>
             <div className="avatar_patient">
-              <img src={patientInformation.avatar} alt="" />
+              {patientInformation.avatar ? (
+                <img src={patientInformation.avatar} alt="" />
+              ) : (
+                <Avatar facebookId="100008343750912" size="45" round={true} />
+              )}
             </div>
             <div className="review_infor-container">
               <strong>
@@ -106,7 +111,11 @@ export default function ReviewExamination(props: Props) {
       <div className="reviews_container">{renderFeedback()}</div>
       {isAuth && isBookMedical ? (
         <div className="input_review">
-          <img src={currentUser.avatar} alt="" />
+          {currentUser.avatar ? (
+            <img src={currentUser.avatar} alt="" />
+          ) : (
+            <Avatar style={{marginRight:'20px'}} facebookId="100008343750912" size="45" round={true} />
+          )}
           <form action="" onSubmit={addFeedback}>
             <textarea
               name=""
