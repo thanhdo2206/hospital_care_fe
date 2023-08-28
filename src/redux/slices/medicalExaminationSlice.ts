@@ -10,13 +10,13 @@ import {
 import { DispatchType } from "../configStore";
 
 export type MedicalExaminationState = {
-  arrMedicalExaminations: IMedicalExaminationTime[];
+  arrMedicalExaminations: IMedicalExaminationTime[] | null;
   arrDeparmentId: number[];
   medicalExaminationDetail: IMedicalExaminationTime | null;
 };
 
 const initialState: MedicalExaminationState = {
-  arrMedicalExaminations: [],
+  arrMedicalExaminations: null,
   arrDeparmentId: [],
   medicalExaminationDetail: null,
 };

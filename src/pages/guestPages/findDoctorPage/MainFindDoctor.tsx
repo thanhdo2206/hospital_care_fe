@@ -10,9 +10,11 @@ import { getAllMedicalExaminationTimeThunk } from "../../../redux/slices/medical
 import FilterDoctor from "./FilterDoctor";
 import InformationAppointment from "./InformationAppointment";
 import Search from "./Search";
+import { CircularProgress } from "@mui/material";
 
 export default function MainFindDoctor() {
   const dispatch: DispatchType = useDispatch();
+
   const { arrMedicalExaminations } = useSelector(
     (state: RootState) => state.medicalExaminationSlice
   );
@@ -25,7 +27,25 @@ export default function MainFindDoctor() {
     getMedicalExaminationTimeApi();
   }, []);
 
+  useEffect(() => {
+    if (arrMedicalExaminations?.length !== 0) handleOffLoading();
+  }, [arrMedicalExaminations]);
+
+  const [loading, setLoading] = useState(false);
+  const handleOnLoading = () => {
+    setLoading(true);
+  };
+
+  const handleOffLoading = () => {
+    setLoading(false);
+  };
+
   const renderMedicalExamination = () => {
+    if (!arrMedicalExaminations) {
+      handleOnLoading();
+      return;
+    }
+
     if (arrMedicalExaminations.length === 0) {
       return (
         <div className="box__filter__not__found">
@@ -50,6 +70,7 @@ export default function MainFindDoctor() {
       }
     );
   };
+
   return (
     <section className="container__home-doctor">
       <div className="search__doctor-image">
@@ -59,19 +80,31 @@ export default function MainFindDoctor() {
             alt=""
           />
           <h1 className="title">Search Doctor, Make an Appointment</h1>
-          <Search />
+          <Search
+            handleOnLoading={handleOnLoading}
+            handleOffLoading={handleOffLoading}
+          />
         </div>
       </div>
       <section className="infor__appointment__container">
         <Grid container spacing={5} className="grid__container">
           <Grid item xs={3} className="grid__filter">
-            <FilterDoctor />
+            <FilterDoctor
+              handleOnLoading={handleOnLoading}
+              handleOffLoading={handleOffLoading}
+            />
           </Grid>
           <Grid item xs={9} className="information__container">
-            {renderMedicalExamination()}
+            {loading ? (
+              <CircularProgress className="circular__progress" />
+            ) : (
+              renderMedicalExamination()
+            )}
           </Grid>
         </Grid>
       </section>
     </section>
   );
 }
+
+

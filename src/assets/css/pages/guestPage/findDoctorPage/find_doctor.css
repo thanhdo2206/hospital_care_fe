@@ -272,7 +272,7 @@
   letter-spacing: 1px;
   padding: 10px 10px;
   text-align: center;
-  text-transform:capitalize;
+  text-transform: capitalize;
   transition: all 0.4s ease;
 }
 .container__description .btn__detail:hover a {
@@ -382,4 +382,14 @@
 
 .container__price {
   font-size: var(--font-size-title);
+}
+
+.infor__appointment__container
+  .grid__container
+  .information__container
+  .circular__progress {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

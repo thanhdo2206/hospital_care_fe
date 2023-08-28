@@ -8,7 +8,13 @@ import { searchNameMedicalExaminationTimeThunk } from "../../../redux/slices/med
 import { ProgressListener } from "../../../components/Progress";
 import { useSearchParams } from "react-router-dom";
 
-export default function Search() {
+type Props = {
+  handleOnLoading: () => void;
+  handleOffLoading: () => void;
+};
+
+export default function Search(props: Props) {
+  const { handleOnLoading, handleOffLoading } = props;
   const [inputSearch, setInputSearch] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -52,13 +58,9 @@ export default function Search() {
   };
 
   const searchApi = async (nameDoctor: string) => {
-    ProgressListener.emit("start");
-
-    await setTimeout(() => {
-      dispatch(searchNameMedicalExaminationTimeThunk(nameDoctor));
-
-      ProgressListener.emit("stop");
-    }, 2000);
+    handleOnLoading();
+    await dispatch(searchNameMedicalExaminationTimeThunk(nameDoctor));
+    handleOffLoading();
   };
 
   return (

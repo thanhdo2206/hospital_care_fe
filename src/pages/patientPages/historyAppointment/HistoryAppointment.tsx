@@ -72,7 +72,7 @@ export default function HistoryAppointment(props: Props) {
       field: "appointmentDate",
       headerName: "Appointment Date",
       sortable: false,
-      width: 220,
+      width: 240,
     },
     {
       renderHeader: (params: GridColumnHeaderParams) => (

@@ -23,7 +23,14 @@ type TypeFilter = {
   [key: string]: any;
 };
 
-export default function FilterDoctor() {
+type Props = {
+  handleOnLoading: () => void;
+  handleOffLoading: () => void;
+};
+
+export default function FilterDoctorParamsURL(props: Props) {
+  const { handleOnLoading, handleOffLoading } = props;
+
   const dispatch: DispatchType = useDispatch();
 
   // const [categories, setCategories] = useState<ICategory[]>();
@@ -56,6 +63,23 @@ export default function FilterDoctor() {
     getAllCategories();
   }, []);
 
+  const filterDoctorApi = async (
+    categories: string,
+    minPrice: number,
+    maxPrice: number
+  ) => {
+    handleOnLoading();
+
+    await dispatch(
+      filterMedicalExaminationTimeThunkByCategoryAndPrice(
+        categories,
+        minPrice,
+        maxPrice
+      )
+    );
+    handleOffLoading();
+  };
+
   const formik = useFormik<IMedicalExaminationFilter>({
     initialValues: {
       category: [],
@@ -70,17 +94,9 @@ export default function FilterDoctor() {
       const arrCategory = Object.keys(objCategoryCheck).filter(
         (item) => objCategoryCheck[item]
       );
-      ProgressListener.emit("start");
-      setTimeout(() => {
-        dispatch(
-          filterMedicalExaminationTimeThunkByCategoryAndPrice(
-            arrCategory.join(","),
-            minPrice,
-            maxPrice
-          )
-        );
-        ProgressListener.emit("stop");
-      }, 2000);
+
+      filterDoctorApi(arrCategory.join(","), minPrice, maxPrice);
+
       filterParams.set("minPrice", `${minPrice}`);
       filterParams.set("maxPrice", `${maxPrice}`);
       setFilterParams(filterParams);
@@ -105,23 +121,7 @@ export default function FilterDoctor() {
 
     setFieldValue("minPrice", values.minPrice);
     setFieldValue("maxPrice", values.maxPrice);
-
-    // if (!paramsMinPrice || !paramsMaxPrice) {
-    //   setFieldValue("minPrice", 0);
-    //   setFieldValue("maxPrice", 999999999999);
-    // }
-
-    ProgressListener.emit("start");
-    setTimeout(() => {
-      dispatch(
-        filterMedicalExaminationTimeThunkByCategoryAndPrice(
-          arrCategory.join(","),
-          values.minPrice,
-          values.maxPrice
-        )
-      );
-      ProgressListener.emit("stop");
-    }, 2000);
+    filterDoctorApi(arrCategory.join(","), values.minPrice, values.maxPrice);
 
     arrCategory.length === 0
       ? filterParams.delete("categories")
@@ -139,7 +139,7 @@ export default function FilterDoctor() {
     });
 
     if (Object.keys(categoryCheck).length !== 0 && checkFilterInitial.current) {
-      filterDoctor(params);
+      filterDoctorParamsURL(params);
       checkFilterInitial.current = false;
     }
 
@@ -153,24 +153,14 @@ export default function FilterDoctor() {
     values.maxPrice = params.maxPrice ? +params.maxPrice : 999999999999;
   };
 
-  const filterDoctor = (params: TypeFilter) => {
+  const filterDoctorParamsURL = (params: TypeFilter) => {
     let { categories, minPrice, maxPrice } = params;
 
     categories = categories ?? "";
     minPrice = minPrice ? +minPrice : 0;
     maxPrice = maxPrice ? +maxPrice : 999999999999;
     if (categories || params.minPrice) {
-      ProgressListener.emit("start");
-      setTimeout(() => {
-        dispatch(
-          filterMedicalExaminationTimeThunkByCategoryAndPrice(
-            categories as string,
-            Number(minPrice),
-            Number(maxPrice)
-          )
-        );
-        ProgressListener.emit("stop");
-      }, 2000);
+      filterDoctorApi(categories as string, Number(minPrice), Number(maxPrice));
     }
   };
 

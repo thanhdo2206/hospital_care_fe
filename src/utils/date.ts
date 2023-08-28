@@ -1,9 +1,9 @@
 import { ITimeSlot } from "../interface/TimeSlotInterface";
 
 export const addHoursToDate = (objDate: Date, minuteDuration: number): Date => {
-  var numberOfMilliseconds = objDate.getTime();
-  var addMilliseconds = minuteDuration * 60 * 1000;
-  var newDateObj = new Date(numberOfMilliseconds + addMilliseconds);
+  let numberOfMilliseconds = objDate.getTime();
+  let addMilliseconds = minuteDuration * 60 * 1000;
+  let newDateObj = new Date(numberOfMilliseconds + addMilliseconds);
   return newDateObj;
 };
 
